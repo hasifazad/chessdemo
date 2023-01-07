@@ -15,18 +15,10 @@ const chat = new mongoose.Schema({
 const MessageSchema = new mongoose.Schema({
     person: [mongoose.SchemaTypes.ObjectId, mongoose.SchemaTypes.ObjectId],
     chat: [chat]
-}
-
-)
+})
 
 
 
 
 
-
-
-
-
-
-
-module.exports = mongoose.model('message', MessageSchema)
+module.exports = mongoose.model('Chat', MessageSchema)

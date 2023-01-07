@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
@@ -15,18 +15,26 @@ import AdbIcon from '@mui/icons-material/Adb';
 
 
 import { createTheme } from '@mui/material';
+import { UserDetailsContext } from '../context/UserContext';
+import { useNavigate } from 'react-router-dom';
 
+// import path from '../images/'
 
-const pages = ['Products', 'Pricing', 'Blog'];
-const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
+const pages = ['Home'];
+const settings = ['Profile', 'Logout'];
 
 function Header() {
   const [anchorElNav, setAnchorElNav] = React.useState(null);
   const [anchorElUser, setAnchorElUser] = React.useState(null);
 
+  const navigate = useNavigate()
+
   const handleOpenNavMenu = (event) => {
     setAnchorElNav(event.currentTarget);
   };
+  const home = () => {
+    navigate('/home')
+  }
   const handleOpenUserMenu = (event) => {
     setAnchorElUser(event.currentTarget);
   };
@@ -56,8 +64,10 @@ function Header() {
     },
   });
 
+  let { user } = useContext(UserDetailsContext)
+
   return (
-    <AppBar position="sticky"  >
+    <AppBar position="sticky" elevation={0}>
       <Container maxWidth="xl">
         <Toolbar disableGutters>
           <AdbIcon sx={{ display: { xs: 'none', md: 'flex' }, mr: 1 }} />
@@ -65,7 +75,7 @@ function Header() {
             variant="h6"
             noWrap
             component="a"
-            href="/"
+            href="/home"
             sx={{
               mr: 2,
               display: { xs: 'none', md: 'flex' },
@@ -137,9 +147,11 @@ function Header() {
           <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
             {pages.map((page) => (
               <Button
+                onClick={home}
                 key={page}
-                onClick={handleCloseNavMenu}
+                // onClick={handleCloseNavMenu}
                 sx={{ my: 2, color: 'white', display: 'block' }}
+
               >
                 {page}
               </Button>
@@ -149,8 +161,8 @@ function Header() {
           <Box sx={{ flexGrow: 0 }}>
             <Tooltip title="Open settings">
               <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" />
-                <Typography ml={1} style={{ color: 'white' }}>hasif azad</Typography>
+                {user.image ? <Avatar alt="Remy Sharp" src={require('../images/' + user.image)} /> : <Avatar alt="Remy Sharp" src={require('../images/im.jpg')} />}
+                <Typography ml={1} style={{ color: 'white' }}>{user ? user.username : null}</Typography>
               </IconButton>
             </Tooltip>
             <Menu

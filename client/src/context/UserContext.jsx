@@ -5,7 +5,7 @@ import React, { createContext, useState } from 'react'
 export let UserDetailsContext = createContext(null)
 
 function UserContext({ children }) {
-    let [user, setUser] = useState({})
+    let [user, setUser] = useState(null)
     return (
         <UserDetailsContext.Provider value={{ user, setUser }}>
             {children}

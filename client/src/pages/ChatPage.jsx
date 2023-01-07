@@ -7,9 +7,8 @@ function ChatPage() {
   return (
     <div>
       <Header />
-      <ChatContext>
         <Chat />
-      </ChatContext>
+  
     </div>
   )
 }

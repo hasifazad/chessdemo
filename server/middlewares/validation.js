@@ -15,7 +15,6 @@ const loginSchema = yup.object({
 
 function validation(schema) {
     return async (req, res, next) => {
-        console.log(req.body);
         const body = req.body
         try {
             await schema.validate(body)

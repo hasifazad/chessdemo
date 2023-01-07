@@ -9,12 +9,13 @@ function Signup() {
     const textStyle = { margin: '10px 0', backgroundColor: 'white' }
     const errStyle = { color: 'red', margin: 0 }
 
+    const BASE_URL = process.env.REACT_APP_BASE_URL
 
     let [signup, setSignup] = useState(null)
     let { register, handleSubmit, formState: { errors } } = useForm()
 
     const onsubmit = (data) => {
-        axios.post('http://localhost:3001/api/user/signup', data).then((response) => {
+        axios.post(`${BASE_URL}/api/user/signup`, data).then((response) => {
             console.log('success', response);
             setSignup(null)
         }).catch((err) => {

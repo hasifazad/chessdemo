@@ -1,21 +1,26 @@
 import { Box, Button, Chip, Grid, Stack, Typography } from '@mui/material'
 import { Container } from '@mui/system'
-import React from 'react'
+import React, { useContext, useState } from 'react'
 
 import ChessBoard from '../components/ChessBoard'
 import Header from '../components/Header'
 import MyTimer from '../components/Timer'
+import ChatContext from '../context/ChatContext'
+import { MatchDetailsContext } from '../context/MatchContext'
 
 
 function GamePage() {
     const time = new Date();
-    time.setSeconds(time.getSeconds() + 600)
+    time.setSeconds(time.getSeconds() + 100)
     console.log(time);
+    let [t, SetT] = useState(time)
+    let { moved } = useContext(MatchDetailsContext)
     return (
         <div>
             <Header />
 
 
+            
             <Box style={{ padding: '40px' }}>
                 <Grid container spacing={5}>
                     <Grid item>
@@ -44,13 +49,12 @@ function GamePage() {
                         </Box>
                     </Grid>
                     <Grid item style={{ width: '400px' }}>
-                        <Box style={{ width: '100%', height: "100%", backgroundColor: '#80d8ff', borderRadius: '10px', margin: '20px 0' }}>
+                        <Box style={{ width: '100%', height: "500px", backgroundColor: '#80d8ff', borderRadius: '10px', margin: '20px 0' }}>
 
                         </Box>
                     </Grid>
                 </Grid>
             </Box>
-
 
         </div>
     )

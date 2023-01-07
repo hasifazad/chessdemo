@@ -5,7 +5,7 @@ import GoogleSignup from './GoogleSignup'
 import axios from 'axios'
 import { useContext } from 'react'
 import { UserDetailsContext } from '../context/UserContext'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 
 function Login() {
     const paperStyle = { padding: '30px 20px', width: '350px', margin: '50px auto' }
@@ -13,6 +13,7 @@ function Login() {
     const span = { color: 'red' }
     const errStyle = { color: 'red', margin: 0 }
 
+    let navigate = useNavigate()
 
     let { setUser } = useContext(UserDetailsContext)
 
@@ -26,6 +27,7 @@ function Login() {
             setUser(response.data.user)
             localStorage.setItem('chesstoken', response.data.token)
             setLogin(null)
+            navigate('/home')
         }).catch((error) => {
             console.log(error);
             setLogin(error.response.data)
@@ -58,6 +60,9 @@ function Login() {
                         <GoogleSignup />
                     </form>
                     <Link to='/'>chat</Link>
+                    <Link to='/game'>game</Link>
+                    <Link to='/creategame'>Creategame</Link>
+                    <Link to='/profile'>Profile</Link>
                 </Box>
             </Paper>
         </Grid>

@@ -14,35 +14,49 @@ import ChatProfile from '../ChatProfile/ChatProfile'
 // ===================   CONTEXTS   =========================
 import { ChatDetailsContext } from '../../context/ChatContext'
 import { UserDetailsContext } from '../../context/UserContext'
+import { Link } from 'react-router-dom'
 
 
 
 function Chat() {
     let { user } = useContext(UserDetailsContext)
     let { chat, setChat, reciever } = useContext(ChatDetailsContext)
-    
     const socket = useRef()
+    const scrollRef = useRef()
     const [conversations, setConversations] = useState([])
     const [text, setText] = useState('')
     const [arrivalMsg, setArrivalMsg] = useState(null)
+    const [departMsg, setDepartMsg] = useState(null)
+
+    const BASE_URL = process.env.REACT_APP_BASE_URL
+    const CHAT_URL = process.env.REACT_APP_CHAT_URL
+
 
     useEffect(() => {
-        socket.current = io('ws://localhost:8900')
+        socket.current = io(`${CHAT_URL}`)
     }, [])
 
     useEffect(() => {
         socket.current.emit('adduser', user._id)
-        socket.current.on('getuser', (us) => {
-            console.log(us);
+        socket.current.on('getuser', (users) => {
+            console.log(users);
         })
-    }, [user])
-    
+    }, [])
+
+    useEffect(() => {
+        axios.get(`${BASE_URL}/api/user/all-users`).then((response) => {
+            setConversations(response.data)
+        }).catch((err) => {
+            console.log(err);
+        })
+    }, [])
+
     useEffect(() => {
         socket.current.on('getmessage', (msg) => {
-            
+
             setArrivalMsg({
-                sender: msg.senderId,
-                reciever: user._id,
+                sender: msg.sender,
+                reciever: msg.reciever,  //reciever the user ie user._id
                 message: msg.text,
                 createdAt: Date.now()
             })
@@ -50,41 +64,53 @@ function Chat() {
     }, [])
 
     useEffect(() => {
-        arrivalMsg && reciever.includes(arrivalMsg.sender) && setChat([...chat, arrivalMsg])
+        arrivalMsg && reciever._id.includes(arrivalMsg.sender) && setChat([...chat, arrivalMsg])
     }, [arrivalMsg])
 
     useEffect(() => {
-        axios.get('http://localhost:3001/api/user/all-users').then((response) => {
-            setConversations(response.data)
-        }).catch((err) => {
-            console.log(err);
-        })
-    }, [])
+        departMsg && reciever._id.includes(departMsg.reciever) && setChat([...chat, departMsg])
+        setText('')
+    }, [departMsg])
+
+
 
     const sendText = () => {
-        let textMsg = {
+        let msgObj = {
             first_person: user._id,
-            second_person: reciever,
+            second_person: reciever._id,
             sender: user._id,
-            reciever: reciever,
+            reciever: reciever._id,
             message: text
         }
-        
-        socket.current.emit('sendmessage', {
-            senderId: user._id,
-            recieverId: reciever,
+
+        socket.current.emit('setmessage', {
+            sender: user._id,
+            reciever: reciever._id,
             text: text
         })
 
-        axios.post('http://localhost:3001/api/message', textMsg).then((response) => {
+        setDepartMsg({
+            sender: user._id,
+            reciever: reciever._id,
+            message: text,
+            createdAt: Date.now()
+        })
+
+
+        axios.post(`${BASE_URL}/api/chat`, msgObj).then((response) => {
 
         }).catch((error) => {
             console.log(error);
         })
     }
 
+    useEffect(() => {
+        scrollRef.current?.scrollIntoView({ behavior: 'smooth' })
+    }, [chat])
+
     return (
         <Container maxWidth='xl'>
+            <Link to='/game'>game</Link>
             <div className='messenger'>
                 <div className='chat-profile-box'>
                     <ChatProfile />
@@ -93,13 +119,13 @@ function Chat() {
                     <div className='chat-box-top'>
                         {
                             chat.map((msg, index) => {
-                                return <Message key={index} data={msg.message} time={msg.createdAt} own={user._id === msg.sender ? true : false} />
+                                return (<div key={index} ref={scrollRef}><Message data={msg.message} time={msg.createdAt} own={user._id === msg.sender ? true : false} /></div>)
                             })
                         }
                     </div>
 
                     <div className='chat-box-bottom'>
-                        <textarea className='chat-input' placeholder='Type something...'
+                        <textarea value={text} className='chat-input' placeholder='Type something...'
                             onChange={(e) => { setText(e.target.value) }}
                         />
                         <button className='chat-send-button' type='button' onClick={sendText}>send</button>
