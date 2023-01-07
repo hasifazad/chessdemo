@@ -8,9 +8,10 @@ function MatchContext({ children }) {
     let [match, setMatch] = useState(null)
     let [matchLink, setMatchLink] = useState('')
     let [moved, setMoved] = useState(false)
-    
+    let [open, setOpen] = useState(false);
+
     return (
-        <MatchDetailsContext.Provider value={{ match, setMatch, matchLink, setMatchLink,moved, setMoved }}>
+        <MatchDetailsContext.Provider value={{ match, setMatch, matchLink, setMatchLink, moved, setMoved, open, setOpen }}>
             {children}
         </MatchDetailsContext.Provider>
     )

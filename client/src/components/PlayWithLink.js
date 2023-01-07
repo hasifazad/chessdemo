@@ -30,7 +30,7 @@ export default function PlayWithLink(props) {
     let [invalid, setInvalid] = React.useState(null)
 
     let { user } = React.useContext(UserDetailsContext)
-    let { setMatchLink } = React.useContext(MatchDetailsContext)
+    let { setMatch, setMatchLink } = React.useContext(MatchDetailsContext)
 
     let navigate = useNavigate()
 
@@ -53,7 +53,7 @@ export default function PlayWithLink(props) {
             if (response.data == 'invalid link') {
                 setInvalid(response.data)
             } else {
-                // setMatch(response.data)
+                setMatch(response.data)
                 setMatchLink(gameLink)
                 navigate('/game')
             }
