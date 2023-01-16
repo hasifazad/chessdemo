@@ -1,0 +1,55 @@
+.ch-box {
+    display: flex;
+    margin: 30px 100px;
+    flex-wrap: wrap;
+}
+
+.ch-box1 {
+    flex: 6;
+}
+
+.ch-box2 {
+    /* background-color: aquamarine; */
+    flex: 3;
+    margin: 0 30px;
+}
+
+.ch-box3 {
+    /* background-color: rgb(93, 167, 142); */
+    flex: 4;
+
+}
+
+.ch-timer {
+    display: flex;
+    justify-content: space-evenly;
+}
+
+.ch-playername {
+    display: flex;
+    justify-content: center;
+}
+
+.ch-color {
+    display: flex;
+}
+
+.ch-btn {
+    margin-bottom: 10px;
+}
+
+.ch-btn2 {
+    margin: 20px 0;
+}
+
+.ch-moves {
+    padding: 20px;
+    border-radius: 20px;
+    background-color: rgb(197, 243, 255);
+    height: 450px;
+}
+
+.ch-chat {
+    border-radius: 20px;
+    background-color: rgb(149, 218, 236);
+}

@@ -1,5 +1,5 @@
 const router = require('express').Router()
-const { async } = require('q')
+const { setRanking, getAllRanking } = require('../contollers/RankingController.js')
 const Ranking = require('../models/Ranking.js')
 
 
@@ -23,32 +23,10 @@ router.post('/', async (req, res, next) => {
     }
 })
 
-router.patch('/', async (req, res, next) => {
-    console.log(req.body);
-    try {
-        if (req.body.add_to_ranking) {
-            let a = await Ranking.updateOne(
-                { user_id: req.body.user_id },
-                {
-                    ranking: {
+router.patch('/set-ranking', setRanking)
 
-                        win: { $add: ["$win", 1] },
-                        lose: req.body.lose,
-                        draw: req.body.draw,
-                        point: req.body.point,
 
-                    }
-                }
-            )
-            console.log(a);
-        } else {
-
-        }
-    } catch (error) {
-        console.log(error);
-        next(error)
-    }
-})
+router.get('/get-ranklist', getAllRanking)
 
 
 

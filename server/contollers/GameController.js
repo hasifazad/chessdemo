@@ -7,6 +7,9 @@ const ObjectId = require('objectid')
 module.exports = {
     setGame: async (req, res, next) => {
         console.log(req.body);
+        if (req.body.color == 'w') {
+            colorTwo = 'b'
+        }
         let gameId = await Game.create({
             first_player: {
                 id: req.body.first_player,
@@ -14,9 +17,10 @@ module.exports = {
             },
             second_player: {
                 id: null,
-                color: req.body.color
+                color: colorTwo
             },
-            time: req.body.time
+            time: req.body.time,
+            add_to_ranking: req.body.add_to_ranking
 
         })
         gameId.save()
@@ -109,8 +113,8 @@ module.exports = {
             {
                 $project: {
                     time: 1,
-                    user1: '$user1.username',
-                    user2: '$user2.username'
+                    user1: { username: '$user1.username', user_id: '$user1._id' },
+                    user2: { username: '$user2.username', user_id: '$user2._id' }
                 }
             }
         ])

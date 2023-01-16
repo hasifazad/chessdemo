@@ -23,7 +23,6 @@ function Login() {
     const BASE_URL = process.env.REACT_APP_BASE_URL
     const onsubmit = (data) => {
         axios.post(`${BASE_URL}/api/user/login`, data).then((response) => {
-            console.log(response.data.token);
             setUser(response.data.user)
             localStorage.setItem('chesstoken', response.data.token)
             setLogin(null)
@@ -57,12 +56,12 @@ function Login() {
                         {/* {errors.password && errors.password.type === "pattern" && (<span style={span}>Enter a strong password</span>)} */}
                         <Button fullWidth variant='contained' color='primary' type='submit'>Log in</Button>
                         <Typography align='center' padding={1}>OR</Typography>
-                        <GoogleSignup />
+                        {/* <GoogleSignup /> */}
                     </form>
-                    <Link to='/'>chat</Link>
-                    <Link to='/game'>game</Link>
-                    <Link to='/creategame'>Creategame</Link>
-                    <Link to='/profile'>Profile</Link>
+                    <div style={{ display: 'flex', margin: '5px', justifyContent: 'space-between' }}>
+                        <p style={{ margin: '0' }}>Dont't have account?</p>
+                        <Link to='/signup'>signup</Link>
+                    </div>
                 </Box>
             </Paper>
         </Grid>

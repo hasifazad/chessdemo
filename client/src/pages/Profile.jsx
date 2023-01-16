@@ -3,7 +3,7 @@ import { Stack } from '@mui/system'
 import React from 'react'
 import Header from '../components/Header'
 import LeftSideBar from '../components/LeftSideBar'
-import ProfileSettings from '../components/ProfileSettings'
+import ProfileSettings from '../components/ProfileSettings/ProfileSettings'
 
 function Profile() {
     return (

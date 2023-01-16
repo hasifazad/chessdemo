@@ -3,16 +3,20 @@ const { number } = require('yup')
 
 const ranking = new mongoose.Schema({
     win: {
-        type: Number
+        type: Number,
+        default: 0
     },
     lose: {
-        type: Number
+        type: Number,
+        default: 0
     },
     draw: {
-        type: Number
+        type: Number,
+        default: 0
     },
     point: {
-        type: Number
+        type: Number,
+        default: 0
     }
 })
 

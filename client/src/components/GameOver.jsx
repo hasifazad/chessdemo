@@ -8,7 +8,7 @@ import DialogTitle from '@mui/material/DialogTitle';
 import { MatchDetailsContext } from '../context/MatchContext';
 import { useNavigate } from 'react-router-dom';
 
-export default function AlertDialog() {
+export default function AlertDialog(props) {
     let { open, setOpen } = React.useContext(MatchDetailsContext)
     let navigate = useNavigate()
 
@@ -37,7 +37,7 @@ export default function AlertDialog() {
                 </DialogTitle>
                 <DialogContent>
                     <DialogContentText id="alert-dialog-description">
-                        Congrats! You win the match✌️
+                        {props.data}
                     </DialogContentText>
                 </DialogContent>
                 <DialogActions>

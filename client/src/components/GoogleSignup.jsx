@@ -1,12 +1,26 @@
 
 import React, { useEffect } from 'react'
 import jwtDecode from 'jwt-decode';
+import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 
 function GoogleSignup() {
+    const BASE_URL = process.env.REACT_APP_BASE_URL
+
+    const navigate = useNavigate()
 
     const handleCallbackResponse = (res) => {
-        let a = jwtDecode(res.credential)
-        console.log(a);
+        let user = jwtDecode(res.credential)
+        console.log('fghjk', user);
+        let obj = {
+            username: user.name,
+            email: user.email
+        }
+        // axios.post(`${BASE_URL}/api/user/signup`, obj).then((response) => {
+        //     navigate('/home')
+        // }).catch((err) => {
+        //     console.log(err);
+        // })
 
     }
 
@@ -17,7 +31,7 @@ function GoogleSignup() {
         })
         window.google.accounts.id.renderButton(
             document.getElementById('signInDiv'),
-            { theme: "outline", size: 'large', width:'350' }
+            { theme: "outline", size: 'large', width: '350' }
         )
         window.google.accounts.id.prompt()
     }, [])

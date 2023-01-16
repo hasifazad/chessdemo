@@ -1,5 +1,6 @@
 
 import React from 'react'
+import HeaderOne from '../components/HeaderOne/HeaderOne'
 import Signup from '../components/Signup'
 
 
@@ -7,7 +8,8 @@ import Signup from '../components/Signup'
 function SignupPage() {
   return (
     <div>
-        <Signup/>
+      <HeaderOne />
+      <Signup />
     </div>
   )
 }

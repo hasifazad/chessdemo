@@ -24,6 +24,9 @@ const pages = ['Home'];
 const settings = ['Profile', 'Logout'];
 
 function Header() {
+  // let blankPic = require('../../images/blankprofilepic.png')
+  let { user, setUser } = useContext(UserDetailsContext)
+  let a = 'https://chess-user-images.s3.ap-south-1.amazonaws.com'
   const [anchorElNav, setAnchorElNav] = React.useState(null);
   const [anchorElUser, setAnchorElUser] = React.useState(null);
 
@@ -43,9 +46,21 @@ function Header() {
     setAnchorElNav(null);
   };
 
-  const handleCloseUserMenu = () => {
+  const onHandleProfile = (e) => {
+    navigate('/profile')
     setAnchorElUser(null);
   };
+
+  const onHandleLogout = (e) => {
+    localStorage.removeItem('chesstoken')
+    setUser(null)
+
+    setAnchorElUser(null);
+  };
+
+  const handleCloseUserMenu = () => {
+    setAnchorElUser(null);
+  }
 
   const theme = createTheme({
     palette: {
@@ -64,7 +79,7 @@ function Header() {
     },
   });
 
-  let { user } = useContext(UserDetailsContext)
+
 
   return (
     <AppBar position="sticky" elevation={0}>
@@ -161,7 +176,7 @@ function Header() {
           <Box sx={{ flexGrow: 0 }}>
             <Tooltip title="Open settings">
               <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                {user.image ? <Avatar alt="Remy Sharp" src={require('../images/' + user.image)} /> : <Avatar alt="Remy Sharp" src={require('../images/im.jpg')} />}
+                {user.image ? <Avatar alt="Remy Sharp" src={`${a}/${user._id + user.image}`} /> : <Avatar alt="Remy Sharp" src='/static/images/avatar/2.jpg' />}
                 <Typography ml={1} style={{ color: 'white' }}>{user ? user.username : null}</Typography>
               </IconButton>
             </Tooltip>
@@ -181,11 +196,13 @@ function Header() {
               open={Boolean(anchorElUser)}
               onClose={handleCloseUserMenu}
             >
-              {settings.map((setting) => (
-                <MenuItem key={setting} onClick={handleCloseUserMenu}>
-                  <Typography textAlign="center">{setting}</Typography>
-                </MenuItem>
-              ))}
+
+              <MenuItem>
+                <Typography onClick={onHandleProfile} textAlign="center">Profile</Typography>
+              </MenuItem>
+              <MenuItem>
+                <Typography onClick={onHandleLogout} textAlign="center">Logout</Typography>
+              </MenuItem>
             </Menu>
           </Box>
         </Toolbar>

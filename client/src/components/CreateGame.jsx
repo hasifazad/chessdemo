@@ -11,21 +11,18 @@ function CreateGame() {
 
     const [color, setColor] = useState('w');
     const [time, setTime] = useState(50);
-    const [addRanking, setAddRanking] = useState('yes');
+    const [addRanking, setAddRanking] = useState(true);
     const [link, setLink] = useState(null);
 
     let { user } = useContext(UserDetailsContext)
 
     const handleColor = (event, newColor) => {
-        console.log(newColor);
         setColor(newColor);
     };
     const valuetext = (value) => {
-        console.log(value);
         setTime(value)
     }
     const onHandle = (event) => {
-        console.log(event.target.value);
         setAddRanking(event.target.value)
     }
 
@@ -34,11 +31,10 @@ function CreateGame() {
             first_player: user._id,
             color,
             time,
-            add_ranking: addRanking
+            add_to_ranking: addRanking
         }
         console.log(obj);
         axios.post(`${BASE_URL}/api/game/create-game`, obj).then((response) => {
-            console.log(response.data);
             setLink(response.data)
         }).catch((error) => {
             console.log(error);
@@ -80,8 +76,8 @@ function CreateGame() {
                         name="radio-buttons-group"
                         onChange={onHandle}
                     >
-                        <FormControlLabel value="yes" control={<Radio />} label="Yes" />
-                        <FormControlLabel value="no" control={<Radio />} label="No" />
+                        <FormControlLabel value={true} control={<Radio />} label="Yes" />
+                        <FormControlLabel value={false} control={<Radio />} label="No" />
                     </RadioGroup>
                 </Box>
                 <Button variant="contained" onClick={onSubmit} fullWidth>CREATE LINK</Button>

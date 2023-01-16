@@ -13,6 +13,9 @@ import { UserDetailsContext } from '../../context/UserContext'
 
 
 function Conversations(props) {
+    let blankPic = require('../../images/blankprofilepic.png')
+    let a = 'https://chess-user-images.s3.ap-south-1.amazonaws.com'
+
     const { setChat, setReciever } = useContext(ChatDetailsContext)
     const { user } = useContext(UserDetailsContext)
 
@@ -34,7 +37,7 @@ function Conversations(props) {
 
     return (
         <div className='conversation' onClick={() => { onClickHandle(props.data) }}>
-            <img className='conversation-img' src={im} alt='image' />
+            <img className='conversation-img' src={user.image ? `${a}/${props.data._id + props.data.image}` : blankPic} alt='image' />
             <span className='conversation-name'>{props.data.username}</span>
         </div>
     )

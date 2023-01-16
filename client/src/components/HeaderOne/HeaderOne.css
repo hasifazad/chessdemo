@@ -1,0 +1,6 @@
+.lp-header {
+    padding: 15px 40px;
+    display: flex;
+    justify-content: space-between;
+    background-color: rgb(109, 180, 205);
+}

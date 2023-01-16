@@ -18,6 +18,9 @@ const gameSchema = new mongoose.Schema(
         },
         time: {
             type: Number
+        },
+        add_to_ranking: {
+            type: Boolean
         }
     },
     { timestamps: true }

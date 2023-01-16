@@ -5,6 +5,7 @@ import { MatchDetailsContext } from '../context/MatchContext';
 
 function MyTimer({ expiryTimestamp, moved }) {
     // let { moved } = useContext(MatchDetailsContext)
+    let { startGame } = useContext(MatchDetailsContext)
     const {
         seconds,
         minutes,

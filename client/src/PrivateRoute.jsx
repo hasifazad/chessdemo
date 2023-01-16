@@ -7,7 +7,7 @@ import Login from './components/Login'
 import { UserDetailsContext } from './context/UserContext'
 
 function PrivateRoute() {
-    let { user,setUser } = useContext(UserDetailsContext)
+    let { user, setUser } = useContext(UserDetailsContext)
     const BASE_URL = process.env.REACT_APP_BASE_URL;
 
     const token = localStorage.getItem('chesstoken')
@@ -15,7 +15,7 @@ function PrivateRoute() {
 
     useEffect(() => {
         axios.get(`${BASE_URL}/api/user/verify/${token}`).then((response) => {
-            console.log(response);
+            console.log(response.data);
             setUser(response.data)
         }).catch((err) => {
             console.log(err);
@@ -24,7 +24,7 @@ function PrivateRoute() {
 
     return (
         <div>
-            {user ? <Outlet /> : <Login />}
+            {user ? <Outlet /> : <LoginPage />}
         </div>
     )
 }

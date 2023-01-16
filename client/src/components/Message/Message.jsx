@@ -14,7 +14,7 @@ function Message({ data, own, time }) {
     return (
         <div className={own ? 'message own' : 'message'}>
             <div className='message-top'>
-                <img className='message-img' src={reciever} alt='' />
+                {/* <img className='message-img' src={reciever} alt='' /> */}
                 <p className='message-text'>{data}</p>
             </div>
             <div className='message-bottom'>

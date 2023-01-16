@@ -4,8 +4,7 @@ import axios from 'axios'
 import { MatchDetailsContext } from '../context/MatchContext'
 
 function PlayersNames() {
-    let { matchLink } = useContext(MatchDetailsContext)
-    let [players, setPlayers] = useState('')
+    let { matchLink, players, setPlayers } = useContext(MatchDetailsContext)
     const BASE_URL = process.env.REACT_APP_BASE_URL
 
     useEffect(() => {
@@ -21,9 +20,9 @@ function PlayersNames() {
     return (
         <>
             <Stack direction='row' spacing={2}>
-                <Typography>{players !== '' ? players.user1 : 'player 1'}</Typography>
+                <Typography>{players !== '' ? players.user1.username : 'player 1'}</Typography>
                 <Typography>V/S</Typography>
-                <Typography>{players !== '' ? players.user2 : 'player 2'}</Typography>
+                <Typography>{players !== '' ? players.user2.username : 'player 2'}</Typography>
             </Stack>
         </>
     )

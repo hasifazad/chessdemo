@@ -20,29 +20,31 @@ const removeUser = (socketId) => {
     users = users.filter((user) => user.socketId !== socketId)
 }
 
+const getPlayers = (matchLink) => {
+    return users.filter((user) => user.matchLink === matchLink)
+}
+
 io.on('connection', (socket) => {
     console.log('chess socket connected');
     socket.on('addUser', (userId, matchLink) => {
         addUser(userId, socket.id, matchLink)
+        let players = getPlayers(matchLink)
+        try {
+            if (players.length == 2) {
+                for (let i = 0; i < 2; i++) {
+                    io.to(players[i].socketId).emit('startgame', { start_game: true })
+                }
+            } else {
+                console.log('start game false');
+            }
+        } catch (error) {
+            console.log(error);
+        }
         console.log(users);
     })
-    // socket.on('move', ({ senderId, recieverId, position, mov }) => {
-    //     const user = getUser(recieverId)
-    //     try {
-    //         io.to(user.socketId).emit('make', {
-    //             id: senderId,
-    //             pos: position,
-    //             mo: mov
 
-    //         })
-    //     } catch (error) {
-
-    //     }
-    // })
     socket.on('setmove', ({ sender, aMove, aFen, matchLink }) => {
-        // console.log(sender, reciever, aMove, aFen);
         const user = getUser(sender, matchLink)
-        console.log(user);
         try {
             io.to(user.socketId).emit('getmove', {
                 id: sender,
@@ -52,22 +54,7 @@ io.on('connection', (socket) => {
         } catch (error) {
 
         }
-        // try {
-        //     io.to(user.socketId).emit('make', {
-        //         id: sender,
-        //         pos: position,
-        //         mo: mov
-
-        //     })
-        // } catch (error) {
-
-        // }
     })
-
-    // socket.on('move', (position, mov) => {
-    //     console.log(m, k);
-    //     io.emit('make', position, mov)
-    // })
 
 
 
@@ -75,7 +62,6 @@ io.on('connection', (socket) => {
     socket.on('disconnect', () => {
         console.log('chess socket disconnected');
         removeUser(socket.id)
-        // socket.emit('getuser', users)
     })
 
 })

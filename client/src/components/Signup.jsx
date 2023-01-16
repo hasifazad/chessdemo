@@ -3,11 +3,14 @@ import { Avatar, Box, Button, Grid, Paper, TextField, Typography } from '@mui/ma
 import { useForm } from 'react-hook-form'
 import axios from 'axios'
 import { margin } from '@mui/system'
+import { Link, useNavigate } from 'react-router-dom'
 
 function Signup() {
     const paperStyle = { padding: '30px 20px', width: '350px', margin: '50px auto' }
     const textStyle = { margin: '10px 0', backgroundColor: 'white' }
     const errStyle = { color: 'red', margin: 0 }
+
+    const navigate = useNavigate()
 
     const BASE_URL = process.env.REACT_APP_BASE_URL
 
@@ -16,11 +19,9 @@ function Signup() {
 
     const onsubmit = (data) => {
         axios.post(`${BASE_URL}/api/user/signup`, data).then((response) => {
-            console.log('success', response);
+            navigate('/login')
             setSignup(null)
         }).catch((err) => {
-            console.log('hello');
-            console.log('dsgfdg', err);
             setSignup(err.response.data)
         })
     }
@@ -59,6 +60,10 @@ function Signup() {
                         <Button fullWidth variant='contained' color='primary' type='submit'>Sign Up</Button>
 
                     </form>
+                    <div style={{ display: 'flex', margin: '5px', justifyContent: 'space-between' }}>
+                        <p style={{ margin: '0' }}>Already have account?</p>
+                        <Link to='/login'>Login</Link>
+                    </div>
                 </Box>
             </Paper>
         </Grid>

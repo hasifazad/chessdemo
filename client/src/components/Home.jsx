@@ -13,7 +13,7 @@ function Home() {
     const navigate = useNavigate()
 
     const quickPlay = () => {
-        navigate('/game')
+        navigate('/play')
     }
     const makeAGame = () => {
         navigate('/creategame')
@@ -22,7 +22,10 @@ function Home() {
         navigate('/ranking')
     }
     const community = () => {
-        navigate('/')
+        navigate('/chat')
+    }
+    const settings = () => {
+        navigate('/profile')
     }
     return (
         <div>
@@ -36,7 +39,7 @@ function Home() {
                         <Button style={buttonStyle} onClick={ranking}>RANKING</Button>
                         <Button style={buttonStyle} onClick={community}>COMMUNITY</Button>
                         <Button style={buttonStyle}>CURRENT MATCHES</Button>
-                        <Button style={buttonStyle}>SETTINGS</Button>
+                        <Button style={buttonStyle} onClick={settings}>SETTINGS</Button>
                     </Box>
                 </Paper>
             </Grid>

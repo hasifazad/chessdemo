@@ -2,23 +2,31 @@
     height: calc(100vh - 110px);
     display: flex;
     margin: 20px;
+    background-color: rgb(227, 238, 236);
 }
 
 .chat-profile-box {
     /* background-color: rgb(253, 255, 225); */
     border-right: rgb(212, 212, 212) solid;
-    flex: 3;
+    flex: 4;
 }
 
 .chat-box {
-    
-    
-    flex: 6;
+
+
+    flex: 7;
 }
 
 .chat-online {
     border-left: rgb(212, 212, 212) solid;
-    flex: 3;
+    flex: 4;
+    display: flex;
+    flex-direction: column;
+}
+
+.chat-converstions {
+    overflow-y: scroll;
+
 }
 
 .chat-box-bottom {

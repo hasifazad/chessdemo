@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { styled } from '@mui/material/styles';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
@@ -7,6 +7,7 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
+import axios from 'axios';
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
     [`&.${tableCellClasses.head}`]: {
@@ -28,46 +29,20 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
     },
 }));
 
-function createData(name, calories, fat, carbs, protein) {
-    return { name, calories, fat, carbs, protein };
-}
-
-const rows = [
-    createData(1, 159, 'afdsaf@gamil.com', 24, 4.0),
-    createData(2, 237, 'mjffgf@gamil.com', 37, 4.3),
-    createData(3, 262, 'yuiyifreytraf@gamil.com', 24, 6.0),
-    createData(4, 305, 'afnmb@gamil.com', 67, 4.3),
-    createData(5, 356, 'qwew@gamil.com', 49, 3.9),
-    createData(5, 356, 'qwew@gamil.com', 49, 3.9),
-    createData(5, 356, 'qwew@gamil.com', 49, 3.9),
-    createData(5, 356, 'qwew@gamil.com', 49, 3.9),
-    createData(5, 356, 'qwew@gamil.com', 49, 3.9),
-    createData(5, 356, 'qwew@gamil.com', 49, 3.9),
-    createData(5, 356, 'qwew@gamil.com', 49, 3.9),
-    createData(5, 356, 'qwew@gamil.com', 49, 3.9),
-    createData(5, 356, 'qwew@gamil.com', 49, 3.9),
-    createData(5, 356, 'qwew@gamil.com', 49, 3.9),
-    createData(5, 356, 'qwew@gamil.com', 49, 3.9),
-    createData(5, 356, 'qwew@gamil.com', 49, 3.9),
-    createData(5, 356, 'qwew@gamil.com', 49, 3.9),
-    createData(5, 356, 'qwew@gamil.com', 49, 3.9),
-    createData(5, 356, 'qwew@gamil.com', 49, 3.9),
-    createData(5, 356, 'qwew@gamil.com', 49, 3.9),
-    createData(5, 356, 'qwew@gamil.com', 49, 3.9),
-    createData(5, 356, 'qwew@gamil.com', 49, 3.9),
-    createData(5, 356, 'qwew@gamil.com', 49, 3.9),
-    createData(5, 356, 'qwew@gamil.com', 49, 3.9),
-    createData(5, 356, 'qwew@gamil.com', 49, 3.9),
-    createData(5, 356, 'qwew@gamil.com', 49, 3.9),
-    createData(5, 356, 'qwew@gamil.com', 49, 3.9),
-    createData(5, 356, 'qwew@gamil.com', 49, 3.9),
-    createData(5, 356, 'qwew@gamil.com', 49, 3.9),
-    createData(5, 356, 'qwew@gamil.com', 49, 3.9),
-    createData(5, 356, 'qwew@gamil.com', 49, 3.9),
-    createData(5, 356, 'qwew@gamil.com', 49, 3.9),
-];
-
 export default function RankingTable() {
+    const BASE_URL = process.env.REACT_APP_BASE_URL
+    let [rankList, setRankList] = useState([])
+    useEffect(() => {
+        axios.get(`${BASE_URL}/api/ranking/get-ranklist`).then((response) => {
+            console.log(response.data);
+            setRankList(response.data)
+        }).catch((err) => {
+            console.log(err);
+        })
+    }, [])
+
+
+
     return (
 
         <TableContainer component={Paper} sx={{ width: '80%', margin: '20px auto', maxHeight: '85vh' }}>
@@ -75,6 +50,7 @@ export default function RankingTable() {
                 <TableHead>
                     <TableRow>
                         <StyledTableCell align='center'>Rank</StyledTableCell>
+                        <StyledTableCell align='center'>Username</StyledTableCell>
                         <StyledTableCell align='center'>Chess ID</StyledTableCell>
                         <StyledTableCell align='center'>Email</StyledTableCell>
                         <StyledTableCell align="right">Total Matches</StyledTableCell>
@@ -85,18 +61,19 @@ export default function RankingTable() {
                     </TableRow>
                 </TableHead>
                 <TableBody>
-                    {rows.map((row) => (
-                        <StyledTableRow key={row.name}>
+                    {rankList.map((row, index) => (
+                        <StyledTableRow key={index + 1}>
                             <StyledTableCell align='center' component="th" scope="row">
-                                {row.name}
+                                {index + 1}
                             </StyledTableCell>
-                            <StyledTableCell align='center'>{row.calories}</StyledTableCell>
-                            <StyledTableCell align='center'>{row.fat}</StyledTableCell>
-                            <StyledTableCell align="right">{row.carbs}</StyledTableCell>
-                            <StyledTableCell align="right">{row.protein}</StyledTableCell>
-                            <StyledTableCell align="right">{row.protein}</StyledTableCell>
-                            <StyledTableCell align="right">{row.protein}</StyledTableCell>
-                            <StyledTableCell align="right">{row.protein}</StyledTableCell>
+                            <StyledTableCell align='center'>{row.user?.username}</StyledTableCell>
+                            <StyledTableCell align='center'>{row.user_id}</StyledTableCell>
+                            <StyledTableCell align='center'>{row.user?.email}</StyledTableCell>
+                            <StyledTableCell align="right">{row.ranking.win + row.ranking.lose + row.ranking.draw}</StyledTableCell>
+                            <StyledTableCell align="right">{row.ranking.win}</StyledTableCell>
+                            <StyledTableCell align="right">{row.ranking.lose}</StyledTableCell>
+                            <StyledTableCell align="right">{row.ranking.draw}</StyledTableCell>
+                            <StyledTableCell align="right">{row.ranking.point}</StyledTableCell>
                         </StyledTableRow>
                     ))}
                 </TableBody>

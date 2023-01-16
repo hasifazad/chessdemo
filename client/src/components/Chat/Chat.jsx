@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useRef, useState } from 'react'
 
 import './Chat.css'
-import { Container } from '@mui/material'
+import { Container, Typography } from '@mui/material'
 
 import io from 'socket.io-client'
 import axios from 'axios'
@@ -9,6 +9,7 @@ import axios from 'axios'
 import Conversations from '../Conversations/Conversations'
 import Message from '../Message/Message'
 import ChatProfile from '../ChatProfile/ChatProfile'
+import NotificationBar from '../NotificationBar'
 
 
 // ===================   CONTEXTS   =========================
@@ -20,9 +21,10 @@ import { Link } from 'react-router-dom'
 
 function Chat() {
     let { user } = useContext(UserDetailsContext)
-    let { chat, setChat, reciever } = useContext(ChatDetailsContext)
+    let { chat, setChat, reciever, setNotification } = useContext(ChatDetailsContext)
     const socket = useRef()
     const scrollRef = useRef()
+    const conversationScrollRef = useRef()
     const [conversations, setConversations] = useState([])
     const [text, setText] = useState('')
     const [arrivalMsg, setArrivalMsg] = useState(null)
@@ -39,7 +41,7 @@ function Chat() {
     useEffect(() => {
         socket.current.emit('adduser', user._id)
         socket.current.on('getuser', (users) => {
-            console.log(users);
+            // console.log(users);
         })
     }, [])
 
@@ -60,6 +62,7 @@ function Chat() {
                 message: msg.text,
                 createdAt: Date.now()
             })
+            setNotification({ msg: msg.text, open: true })
         })
     }, [])
 
@@ -108,15 +111,30 @@ function Chat() {
         scrollRef.current?.scrollIntoView({ behavior: 'smooth' })
     }, [chat])
 
+    const onHandleChange = (e) => {
+        conversationScrollRef.current?.scrollTo(0, 0)
+        let a = []
+        let c = conversations.filter((obj) => {
+            if (obj.username.includes(e.target.value)) {
+                return obj
+            } else {
+                a.push(obj)
+            }
+
+        })
+        setConversations([...c, ...a])
+    }
+
     return (
-        <Container maxWidth='xl'>
-            <Link to='/game'>game</Link>
+        <Container maxWidth='lg'>
+            <NotificationBar />
             <div className='messenger'>
                 <div className='chat-profile-box'>
                     <ChatProfile />
                 </div>
                 <div className='chat-box'>
-                    <div className='chat-box-top'>
+                    {!reciever ? <Typography variant='h2' sx={{ color: 'lightgrey', marginTop: '250px' }}>Start conversation</Typography> : null}
+                    <div className={reciever ? 'chat-box-top' : ''}>
                         {
                             chat.map((msg, index) => {
                                 return (<div key={index} ref={scrollRef}><Message data={msg.message} time={msg.createdAt} own={user._id === msg.sender ? true : false} /></div>)
@@ -124,22 +142,22 @@ function Chat() {
                         }
                     </div>
 
-                    <div className='chat-box-bottom'>
+                    {reciever ? <div className='chat-box-bottom'>
                         <textarea value={text} className='chat-input' placeholder='Type something...'
                             onChange={(e) => { setText(e.target.value) }}
                         />
                         <button className='chat-send-button' type='button' onClick={sendText}>send</button>
-                    </div>
+                    </div> : null}
 
                 </div>
                 <div className='chat-online'>
-                    <input className='chat-search' type='search' placeholder='Search...' />
-                    <>
+                    <input className='chat-search' type='search' placeholder='Search...' onChange={onHandleChange} />
+                    <div className='chat-converstions' ref={conversationScrollRef}>
                         {conversations.map((obj, index) => {
                             return obj._id !== user._id ? <Conversations key={index} data={obj} /> : null
                         })
                         }
-                    </>
+                    </div>
                 </div>
             </div>
         </Container>
