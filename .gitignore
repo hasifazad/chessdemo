@@ -4,4 +4,8 @@
 /chsocket/node_modules
 
 
+/client/.env
+/server/.env
+
+
 

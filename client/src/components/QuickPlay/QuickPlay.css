@@ -1,3 +1,26 @@
-.qp-box{
-    margin: 20px 450px;
+.qp-box {
+    display: flex;
+    justify-content: center;
+    margin-top: 40px;
+}
+
+.qp-box-1 {
+    flex: 2.7;
+    background-color: antiquewhite;
+    margin-left: 40px;
+    padding: 30px;
+}
+
+.qp-box-2 {
+    flex: 5;
+    display: flex;
+    justify-content: center;
+
+}
+
+.qp-box-3 {
+    flex: 2.7;
+    background-color: rgb(194, 253, 253);
+    margin-right: 50px;
+    padding: 30px;
 }
