@@ -75,7 +75,7 @@ function GamePage() {
                                 <BoardColor colorOne='#706677' colorTwo='#ccb7ae' />
                             </div>
                         </div>
-                        <div className='ch-btn2'>
+                        {/* <div className='ch-btn2'>
                             <Button variant="outlined" onClick={() => { setState(!state) }}
                                 disableElevation disableTouchRipple sx={{ marginRight: '10px' }}>CHAT</Button>
                             <Button variant="outlined" disableElevation disableTouchRipple>VIDEO</Button>
@@ -84,7 +84,7 @@ function GamePage() {
                             {
                                 state ? <MiniChat /> : null
                             }
-                        </div>
+                        </div> */}
 
                     </div>
                 </div>
