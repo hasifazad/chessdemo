@@ -1,4 +1,3 @@
-const { async } = require('q');
 const Ranking = require('../models/Ranking')
 
 

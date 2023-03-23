@@ -1,6 +1,5 @@
 const bcrypt = require('bcrypt')
 const jwt = require('jsonwebtoken')
-const { async } = require('q')
 const Ranking = require('../models/Ranking')
 const User = require('../models/User')
 const ObjectId = require('mongoose').Types.ObjectId

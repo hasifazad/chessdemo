@@ -1,6 +1,4 @@
 
-const { async } = require('q');
-const { update } = require('../models/Game');
 const Game = require('../models/Game')
 const ObjectId = require('objectid')
 
