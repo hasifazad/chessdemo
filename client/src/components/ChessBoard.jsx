@@ -17,7 +17,7 @@ import StartGame from './StartGame'
 
 
 
-const socket = io()
+
 
 function ChessBoard() {
     const BASE_URL = process.env.REACT_APP_BASE_URL
